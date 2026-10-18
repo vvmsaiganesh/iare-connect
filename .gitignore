@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment variables — commit .env.example, NEVER the real .env
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Design-reference material — not part of the IARE Connect submission
+IARE Bus EnRoute _ Fleet Console.html
+IARE Bus EnRoute _ Fleet Console_files/
+iare campus photo.jpg

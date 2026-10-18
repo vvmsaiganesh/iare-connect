@@ -1,0 +1,555 @@
+@import 'tailwindcss';
+
+/* Dark mode toggled by adding/removing the `.dark` class on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens — same design language as the IARE UI kit
+   (Google Sans body · Chakra Petch headings · Geist Mono labels,
+    brand navy/blue/gold/teal, blueprint grid, light + dark themes)
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Google Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-chakra: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-background: #f6f8fb;
+  --color-foreground: #0b1220;
+  --color-card: #ffffff;
+  --color-card-foreground: #0b1220;
+  --color-primary: #005094;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #eaf2fb;
+  --color-secondary-foreground: #005094;
+  --color-muted: #eef2f7;
+  --color-muted-foreground: #5b6472;
+  --color-accent: #e8eff8;
+  --color-accent-foreground: #005094;
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-success: #059669;
+  --color-border: #dbe3ec;
+  --color-input: #cfdae6;
+  --color-ring: #0f62ac;
+
+  --color-brand-navy: #005094;
+  --color-brand-blue: #0f62ac;
+  --color-brand-gold: #d2ae6d;
+  --color-brand-teal: #55bcb6;
+
+  --grid-line: rgba(11, 18, 32, 0.06);
+}
+
+.dark {
+  --color-background: #080c15;
+  --color-foreground: #f8fafc;
+  --color-card: #0f1626;
+  --color-card-foreground: #f8fafc;
+  --color-primary: #1f7ad1;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #141d30;
+  --color-secondary-foreground: #dbeafe;
+  --color-muted: #141d30;
+  --color-muted-foreground: #94a3b8;
+  --color-accent: #16203a;
+  --color-accent-foreground: #dbeafe;
+  --color-border: #1e2a44;
+  --color-input: #1e2a44;
+  --color-ring: #3b82f6;
+  --grid-line: rgba(148, 163, 184, 0.09);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background-color: color-mix(in oklch, var(--color-brand-blue) 30%, transparent);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklch, var(--color-muted-foreground) 35%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklch, var(--color-muted-foreground) 55%, transparent);
+    background-clip: content-box;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion + signature utilities
+--------------------------------------------------------------------------- */
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px);
+  }
+}
+
+/* Bottom capsule toast — pops up after a password change/reset. */
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+@keyframes toastOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+}
+.toast-in {
+  animation: toastIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.toast-out {
+  animation: toastOut 0.28s ease-in both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .toast-in,
+  .toast-out {
+    animation-duration: 0.01ms;
+  }
+  /* The login page's ambient art freezes into a still, elegant
+     composition — rings and nodes hold their opening positions. */
+  .gyro-spin-a,
+  .gyro-spin-b,
+  .gyro-spin-c,
+  .gyro-counter-a,
+  .gyro-counter-b,
+  .gyro-counter-c,
+  .gyro-bob,
+  .gyro-glow,
+  .gyro-arc,
+  .gyro-arc-b,
+  .gyro-twinkle,
+  .animate-aurora {
+    animation: none;
+  }
+  .gyro-ping,
+  .panel-sheen,
+  .animate-mote {
+    display: none;
+  }
+}
+
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes auroraDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(30px, -40px) scale(1.14);
+    opacity: 0.9;
+  }
+}
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes gyroSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes gyroSpinRev {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes bobY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.18);
+  }
+}
+@keyframes sonarPing {
+  0% {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.65;
+  }
+  70% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes sheenSweep {
+  0% {
+    transform: translateX(0) skewX(-14deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  72%,
+  100% {
+    transform: translateX(500%) skewX(-14deg);
+    opacity: 0;
+  }
+}
+@keyframes moteRise {
+  0% {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+  16% {
+    opacity: 0.55;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-260px);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .blueprint-grid {
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 42px 42px;
+  }
+  .text-gradient {
+    background: linear-gradient(100deg, var(--color-foreground) 10%, var(--color-brand-blue) 55%, var(--color-brand-teal) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .animate-element {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(12px);
+    animation: fadeSlideIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .animate-float {
+    animation: floatY 6s ease-in-out infinite;
+  }
+  .animate-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--color-muted) 60%, transparent) 25%,
+      color-mix(in oklch, var(--color-muted) 100%, transparent) 37%,
+      color-mix(in oklch, var(--color-muted) 60%, transparent) 63%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animate-delay-150 {
+    animation-delay: 150ms;
+  }
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animate-delay-250 {
+    animation-delay: 250ms;
+  }
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+  .animate-delay-600 {
+    animation-delay: 600ms;
+  }
+  .animate-delay-700 {
+    animation-delay: 700ms;
+  }
+  .animate-aurora {
+    animation: auroraDrift 20s ease-in-out infinite;
+  }
+  .animate-slide-right {
+    opacity: 0;
+    animation: slideRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  /* Prism-gyroscope artwork (login page) — three role rings tumbling on
+     different axes. Each counter's duration/direction must exactly mirror
+     its ring's spin so the node labels stay upright; node rotation origins
+     are set inline per element. */
+  .gyro-spin-a {
+    transform-box: view-box;
+    transform-origin: 260px 210px;
+    animation: gyroSpin 48s linear infinite;
+  }
+  .gyro-spin-b {
+    transform-box: view-box;
+    transform-origin: 260px 210px;
+    animation: gyroSpinRev 64s linear infinite;
+  }
+  .gyro-spin-c {
+    transform-box: view-box;
+    transform-origin: 260px 210px;
+    animation: gyroSpin 80s linear infinite;
+  }
+  .gyro-counter-a {
+    transform-box: view-box;
+    animation: gyroSpinRev 48s linear infinite;
+  }
+  .gyro-counter-b {
+    transform-box: view-box;
+    animation: gyroSpin 64s linear infinite;
+  }
+  .gyro-counter-c {
+    transform-box: view-box;
+    animation: gyroSpinRev 80s linear infinite;
+  }
+  .gyro-bob {
+    transform-box: view-box;
+    animation: bobY 6s ease-in-out infinite;
+  }
+  .gyro-glow {
+    transform-box: view-box;
+    transform-origin: 260px 210px;
+    animation: glowPulse 6s ease-in-out infinite;
+  }
+  .gyro-arc {
+    transform-box: view-box;
+    transform-origin: 260px 210px;
+    animation: gyroSpin 10s linear infinite;
+  }
+  .gyro-arc-b {
+    transform-box: view-box;
+    transform-origin: 260px 210px;
+    animation: gyroSpinRev 16s linear infinite;
+  }
+  .gyro-ping {
+    transform-box: view-box;
+    transform-origin: 260px 210px;
+    animation: sonarPing 7s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  .gyro-twinkle {
+    animation: twinkle 5s ease-in-out infinite;
+  }
+  /* Right-panel ambience: one slow diagonal light sweep + rising motes */
+  .panel-sheen {
+    animation: sheenSweep 13s linear infinite;
+  }
+  .animate-mote {
+    animation: moteRise 22s ease-out infinite;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Login page — the hidden-password eye grows eyelashes and does a cute
+   double-blink while you hover the toggle button (.eye-toggle)
+--------------------------------------------------------------------------- */
+.eye-toggle .eye-blink {
+  transform-box: view-box;
+  transform-origin: 12px 18px; /* bottom lid — the eye closes downward onto it */
+}
+.eye-toggle:hover .eye-blink {
+  animation: eyeBlink 1.7s ease-in-out infinite;
+}
+/* lashes stay hidden everywhere (e.g. the tiny chip icon) until the
+   login-page eye toggle is hovered */
+.eye-lashes {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.eye-toggle:hover .eye-lashes {
+  opacity: 1;
+}
+@keyframes eyeBlink {
+  0% {
+    transform: scaleY(1);
+  }
+  5% {
+    transform: scaleY(0.07);
+  }
+  10% {
+    transform: scaleY(1);
+  }
+  14% {
+    transform: scaleY(0.07);
+  }
+  19% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Login cinematic — choreographed sign-in motion play (LoginCinematic.jsx)
+--------------------------------------------------------------------------- */
+
+/* root: fade in fast, hold, fade out as the dashboard is revealed (4 s total) */
+@keyframes cin-root {
+  0% { opacity: 0; }
+  3% { opacity: 1; }
+  96% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* the screen breathes softly; steam drifts off the mug */
+@keyframes cin-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.94; }
+}
+@keyframes cin-steam {
+  0% { opacity: 0; transform: translateY(2px); }
+  30% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-16px); }
+}
+
+/* slow, gentle rise entrance */
+@keyframes cin-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ambient glow breathing */
+@keyframes cin-breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.07); opacity: 0.75; }
+}
+
+/* scene transitions — pure, quiet opacity fades */
+@keyframes cin-cut-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* bottom progress bar — fills white across the full runtime */
+@keyframes cin-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* finale */
+@keyframes cin-sheen {
+  from { transform: translateX(-130%); }
+  to { transform: translateX(130%); }
+}
+@keyframes cin-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ----- helper classes (delays/durations are set inline in the component) ----- */
+.cin-root {
+  animation: cin-root 4s ease-out both;
+}
+.cin-flicker {
+  animation: cin-flicker 4s ease-in-out infinite;
+}
+.cin-steam {
+  animation: cin-steam 3.2s ease-out infinite;
+}
+.cin-rise {
+  animation: cin-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cin-breathe {
+  animation: cin-breathe 5s ease-in-out infinite;
+}
+.cin-cut-in {
+  animation: cin-cut-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.cin-progress {
+  animation: cin-progress 4s linear both;
+}
+.cin-sheen {
+  animation: cin-sheen 0.9s ease-out 3s both;
+}
+.cin-float {
+  animation: cin-float 4s ease-in-out infinite;
+}
