@@ -8,6 +8,22 @@ IARE Connect is a deliberately small, complete MERN application that demonstrate
 
 ---
 
+## Live Demo
+
+**🌐 https://iare-connect.onrender.com**
+
+| Role | Username (email) | Password |
+| --- | --- | --- |
+| Admin | `admin@iare.ac.in` | `admin@iare.ac.in` |
+| Faculty | `k.laxminarayanamma@iare.ac.in` | `k.laxminarayanamma@iare.ac.in` |
+| Student | `26951a1234@iare.ac.in` | `26951a1234@iare.ac.in` |
+
+Pick the matching role tab on the login page. A password is always the account's own email address (case-insensitive).
+
+---
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -133,7 +149,7 @@ cd client
 npm run dev
 ```
 
-Open **http://localhost:5173**, log in as the seeded Admin, create a Faculty and a Student account, then log in as each to see their dashboards.
+Open **`http://localhost:5173`**, log in as the seeded Admin, create a Faculty and a Student account, then log in as each to see their dashboards.
 
 ---
 
@@ -209,7 +225,7 @@ npm run seed:admin
 
 When the Admin creates a **Faculty** or **Student** account, no password is typed — it **defaults to the account's email address** (e.g. `patro@iare.ac.in`, `26951A1278@iare.ac.in`). Passwords are case-insensitive, so any capitalisation logs in. An Admin can re-issue a credential any time with the per-row **Reset password** action, which applies the same username-as-password rule.
 
-**Demo credentials** for evaluation are shared separately with the evaluation team through a safe channel (never committed to this repository).
+Demo credentials for evaluation are listed in the **Live Demo** section at the top of this README.
 
 ---
 
