@@ -163,7 +163,11 @@ cookie issues, and every feature behaves exactly as it does locally.
    | `SEED_ADMIN_EMAIL` | the Admin email you want (e.g. `admin@iare.ac.in`) |
    | `SEED_ADMIN_PASSWORD` | the Admin password (8+ chars) — shared out-of-band, never committed |
 
-4. Create the Admin once via **Render → Shell**: `npm --prefix server run seed:admin`
+4. **Nothing else to seed** — the server creates the Admin automatically on
+   its first boot from `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` (idempotent;
+   it never changes an existing password). If you ever want to create it
+   manually instead, run `npm --prefix server run seed:admin` from the
+   Render Shell.
 5. Open the service URL — the login page is served from the same origin, the session cookie is set securely, and all features (roles, QR codes, password flows) work.
 
 Notes:
