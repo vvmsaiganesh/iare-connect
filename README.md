@@ -137,6 +137,42 @@ Open **http://localhost:5173**, log in as the seeded Admin, create a Faculty and
 
 ---
 
+## Deploying to Render (single web service)
+
+The API also serves the built React app whenever `client/dist` exists, so **one
+Render web service hosts the whole product** on a single origin — no CORS or
+cookie issues, and every feature behaves exactly as it does locally.
+
+1. In Render choose **New → Web Service** and connect this GitHub repository.
+2. Use these settings:
+
+   | Field | Value |
+   | --- | --- |
+   | Root Directory | *(leave empty — repository root)* |
+   | Runtime | Node |
+   | Build Command | `npm --prefix client install --include=dev && npm --prefix client run build && npm --prefix server install` |
+   | Start Command | `npm --prefix server start` |
+   | Health Check Path | `/` |
+
+3. Add the environment variables (**Environment** tab):
+
+   | Variable | Value |
+   | --- | --- |
+   | `MONGO_URI` | your **MongoDB Atlas** connection string (allow-list `0.0.0.0/0` or Render's IPs) |
+   | `JWT_SECRET` | any long random string |
+   | `SEED_ADMIN_EMAIL` | the Admin email you want (e.g. `admin@iare.ac.in`) |
+   | `SEED_ADMIN_PASSWORD` | the Admin password (8+ chars) — shared out-of-band, never committed |
+
+4. Create the Admin once via **Render → Shell**: `npm --prefix server run seed:admin`
+5. Open the service URL — the login page is served from the same origin, the session cookie is set securely, and all features (roles, QR codes, password flows) work.
+
+Notes:
+- Render runs with `NODE_ENV=production`, so the auth cookie is automatically `Secure` (HTTPS is included by default).
+- `.nvmrc` pins Node 22.
+- Split-deploy alternative (static site for the client + separate API service): set `VITE_API_URL=https://<api-host>/api` in the client's build environment and `CLIENT_ORIGIN=https://<client-host>` on the API.
+
+---
+
 ## Environment Variables
 
 `server/.env` (copy from `server/.env.example` — **the real `.env` is never committed**):

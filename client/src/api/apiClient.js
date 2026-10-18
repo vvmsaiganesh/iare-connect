@@ -1,4 +1,10 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// In local development the API runs on http://localhost:5000. In a production
+// build the UI is served BY the API on the same origin, so a relative "/api"
+// is used by default. Deploying the UI separately? Set VITE_API_URL at build
+// time (and list that origin in the server's CLIENT_ORIGIN).
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? 'http://localhost:5000/api' : '/api');
 
 /**
  * Small fetch wrapper for the IARE Connect API.
