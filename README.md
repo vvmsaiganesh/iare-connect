@@ -16,7 +16,7 @@ IARE Connect is a deliberately small, complete MERN application that demonstrate
 | --- | --- | --- |
 | Admin | `admin@iare.ac.in` | `admin@iare.ac.in` |
 | Faculty | `k.laxminarayanamma@iare.ac.in` | `k.laxminarayanamma@iare.ac.in` |
-| Student | `26951a1234@iare.ac.in` | `26951a1234@iare.ac.in` |
+| Student | `26951A1278@iare.ac.in` | `26951A1278@iare.ac.in` |
 
 Pick the matching role tab on the login page. A password is always the account's own email address (case-insensitive).
 
